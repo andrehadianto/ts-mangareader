@@ -1,15 +1,17 @@
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import Homescreen from "./src/Homescreen";
+import Homescreen from "./src/Screens/Homescreen";
+import MangaDescription from "./src/Screens/MangaDescription";
 
 const navigator = createStackNavigator(
   {
     Home: Homescreen,
+    Description: MangaDescription,
   },
   {
     initialRouteName: "Home",
     defaultNavigationOptions: {
-      title: "App",
+      title: "Mangareader",
       headerShown: false,
     },
   }
