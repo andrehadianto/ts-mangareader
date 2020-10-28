@@ -1,21 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FunctionComponent } from "react";
 import { Text, StyleSheet, View, ImageBackground, Image } from "react-native";
-import { MangaScreenNavigationProp } from "../../types";
+import {
+  MangaDescriptionData,
+  MangaScreenNavigationProp,
+  MangaScreenRouteProp,
+} from "../../types";
 import Axios from "axios";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
 import { Badge, ListItem } from "react-native-elements";
 
-const MangaDescription: React.FC<{
+const MangaDescription: FunctionComponent<{
   navigation: MangaScreenNavigationProp;
-}> = ({ navigation }) => {
-  const [data, setData] = useState({});
+  route: MangaScreenRouteProp;
+}> = ({ navigation, route }) => {
+  const [data, setData] = useState<MangaDescriptionData>({
+    thumb: "",
+    title: "",
+    author: "",
+    status: "",
+    synopsis: "",
+    genre_list: [],
+    chapter: [],
+  });
   const [isLoading, setIsLoading] = useState<true | false>(true);
 
   useEffect(() => {
     setIsLoading(true);
     Axios.get(
-      `http://mangamint.azurewebsites.net/api/manga/detail/${navigation.state.params.endpoint}`
+      `http://mangamint.azurewebsites.net/api/manga/detail/${route.params.endpoint}`
     ).then((res) => {
       setData(res.data);
       setIsLoading(false);
@@ -64,17 +77,19 @@ const MangaDescription: React.FC<{
                   </Text>
                 </View>
                 <View style={{ flexDirection: "row", marginBottom: 10 }}>
-                  {data.genre_list.map((el) => (
-                    <Badge
-                      value={el.genre_name}
-                      status="primary"
-                      containerStyle={{ marginRight: 5 }}
-                      badgeStyle={{
-                        backgroundColor: null,
-                        borderRadius: 2,
-                      }}
-                    />
-                  ))}
+                  {data.genre_list && data.genre_list.length > 0
+                    ? data.genre_list.map((el) => (
+                        <Badge
+                          value={el.genre_name}
+                          status="primary"
+                          containerStyle={{ marginRight: 5 }}
+                          badgeStyle={{
+                            backgroundColor: undefined,
+                            borderRadius: 2,
+                          }}
+                        />
+                      ))
+                    : null}
                 </View>
               </View>
             </LinearGradient>
@@ -113,7 +128,6 @@ const MangaDescription: React.FC<{
                   <ListItem.Chevron />
                 </ListItem>
               ))}
-              {/* <Text>{JSON.stringify(data)}</Text> */}
             </View>
           </ScrollView>
         </>

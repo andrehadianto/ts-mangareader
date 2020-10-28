@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FunctionComponent } from "react";
 import {
   SafeAreaView,
   View,
@@ -13,7 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Axios from "axios";
 import { SearchBar } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { HomeScreenNavigationProp } from "../../types";
+import { HomeScreenNavigationProp, HomeScreenRouteProp } from "../../types";
 
 interface MangaDetail {
   title: string;
@@ -24,9 +24,10 @@ interface MangaDetail {
   updated_on?: string;
 }
 
-const Homescreen: React.FC<{ navigation: HomeScreenNavigationProp }> = ({
-  navigation,
-}) => {
+const Homescreen: FunctionComponent<{
+  navigation: HomeScreenNavigationProp;
+  route: HomeScreenRouteProp;
+}> = ({ navigation }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {

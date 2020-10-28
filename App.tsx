@@ -1,22 +1,26 @@
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import Homescreen from "./src/Screens/Homescreen";
 import MangaChapter from "./src/Screens/MangaChapter";
 import MangaDescription from "./src/Screens/MangaDescription";
+import { RootStackParamList } from "./src/types";
 
-const navigator = createStackNavigator(
-  {
-    Home: Homescreen,
-    Description: MangaDescription,
-    Chapter: MangaChapter,
-  },
-  {
-    initialRouteName: "Home",
-    defaultNavigationOptions: {
-      title: "Mangareader",
-      headerShown: false,
-    },
-  }
-);
+const Stack = createStackNavigator<RootStackParamList>();
 
-export default createAppContainer(navigator);
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{ title: "Mangareader", headerShown: false }}
+      >
+        <Stack.Screen name="Home" component={Homescreen} />
+        <Stack.Screen name="Description" component={MangaDescription} />
+        <Stack.Screen name="Chapter" component={MangaChapter} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
